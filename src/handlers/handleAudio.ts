@@ -4,7 +4,6 @@ import { addVoice } from '@/models/Voice'
 import { pick } from 'lodash'
 import Context from '@/models/Context'
 import Engine from '@/helpers/engine/Engine'
-import addPromoToText from '@/helpers/addPromoToText'
 import fileUrl from '@/helpers/fileUrl'
 import report from '@/helpers/report'
 import urlToText from '@/helpers/urlToText'
@@ -87,7 +86,7 @@ async function sendTranscription(ctx: Context, url: string, fileId: string) {
         ctx.dbchat.id,
         dummyMessage.message_id,
         firstText
-          ? addPromoToText(ctx, firstText)
+          ? firstText
           : ctx.i18n.t('speak_clearly'),
         {
           parse_mode: 'Markdown',
@@ -95,7 +94,7 @@ async function sendTranscription(ctx: Context, url: string, fileId: string) {
         }
       )
     } else if (firstText) {
-      await ctx.reply(addPromoToText(ctx, firstText), {
+      await ctx.reply(firstText, {
         reply_to_message_id: ctx.msg.message_id,
         parse_mode: 'Markdown',
         disable_web_page_preview: true,
